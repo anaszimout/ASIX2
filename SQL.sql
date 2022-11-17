@@ -1,82 +1,49 @@
-CREATE TABLE call (
-    id int  NOT NULL IDENTITY(1, 1),
-    employee_id int  NOT NULL,
-    customer_id int  NOT NULL,
-    start_time datetime  NOT NULL,
-    end_time datetime  NULL,
-    call_outcome_id int  NULL,
-    CONSTRAINT call_ak_1 UNIQUE (employee_id, start_time),
-    CONSTRAINT call_pk PRIMARY KEY  (id)
-);
-    
--- Table: call_outcome
-CREATE TABLE call_outcome (
-    id int  NOT NULL IDENTITY(1, 1),
-    outcome_text char(128)  NOT NULL,
-    CONSTRAINT call_outcome_ak_1 UNIQUE (outcome_text),
-    CONSTRAINT call_outcome_pk PRIMARY KEY  (id)
-);
-    
--- Table: customer
-CREATE TABLE customer (
-    id int  NOT NULL IDENTITY(1, 1),
-    customer_name varchar(255)  NOT NULL,
-    city_id int  NOT NULL,
-    customer_address varchar(255)  NOT NULL,
-    next_call_date date  NULL,
-    ts_inserted datetime  NOT NULL,
-    CONSTRAINT customer_pk PRIMARY KEY  (id)
-);
-    
--- Table: employee
-CREATE TABLE employee (
-    id int  NOT NULL IDENTITY(1, 1),
-    first_name varchar(255)  NOT NULL,
-    last_name varchar(255)  NOT NULL,
-    CONSTRAINT employee_pk PRIMARY KEY  (id)
-);
-    
--- foreign keys
--- Reference: call_call_outcome (table: call)
-ALTER TABLE call ADD CONSTRAINT call_call_outcome
-    FOREIGN KEY (call_outcome_id)
-    REFERENCES call_outcome (id);
-    
--- Reference: call_customer (table: call)
-ALTER TABLE call ADD CONSTRAINT call_customer
-    FOREIGN KEY (customer_id)
-    REFERENCES customer (id);
- 
--- Reference: call_employee (table: call)
-ALTER TABLE call ADD CONSTRAINT call_employee
-    FOREIGN KEY (employee_id)
-    REFERENCES employee (id);
- 
--- Reference: customer_city (table: customer)
-ALTER TABLE customer ADD CONSTRAINT customer_city
-    FOREIGN KEY (city_id)
-    REFERENCES city (id);
-    
--- insert values
-INSERT INTO call_outcome (outcome_text) VALUES ('call started');
-INSERT INTO call_outcome (outcome_text) VALUES ('finished - successfully');
-INSERT INTO call_outcome (outcome_text) VALUES ('finished - unsuccessfully');
-    
-INSERT INTO employee (first_name, last_name) VALUES ('Thomas (Neo)', 'Anderson');
-INSERT INTO employee (first_name, last_name) VALUES ('Agent', 'Smith');
-    
-INSERT INTO customer (customer_name, city_id, customer_address, next_call_date, ts_inserted) VALUES ('Jewelry Store', 4, 'Long Street 120', '2020/1/21', '2020/1/9 14:1:20');
-INSERT INTO customer (customer_name, city_id, customer_address, next_call_date, ts_inserted) VALUES ('Bakery', 1, 'Kurfürstendamm 25', '2020/2/21', '2020/1/9 17:52:15');
-INSERT INTO customer (customer_name, city_id, customer_address, next_call_date, ts_inserted) VALUES ('Café', 1, 'Tauentzienstraße 44', '2020/1/21', '2020/1/10 8:2:49');
-INSERT INTO customer (customer_name, city_id, customer_address, next_call_date, ts_inserted) VALUES ('Restaurant', 3, 'Ulica lipa 15', '2020/1/21', '2020/1/10 9:20:21');
-    
-INSERT INTO call (employee_id, customer_id, start_time, end_time, call_outcome_id) VALUES (1, 4, '2020/1/11 9:0:15', '2020/1/11 9:12:22', 2);
-INSERT INTO call (employee_id, customer_id, start_time, end_time, call_outcome_id) VALUES (1, 2, '2020/1/11 9:14:50', '2020/1/11 9:20:1', 2);
-INSERT INTO call (employee_id, customer_id, start_time, end_time, call_outcome_id) VALUES (2, 3, '2020/1/11 9:2:20', '2020/1/11 9:18:5', 3);
-INSERT INTO call (employee_id, customer_id, start_time, end_time, call_outcome_id) VALUES (1, 1, '2020/1/11 9:24:15', '2020/1/11 9:25:5', 3);
-INSERT INTO call (employee_id, customer_id, start_time, end_time, call_outcome_id) VALUES (1, 3, '2020/1/11 9:26:23', '2020/1/11 9:33:45', 2);
-INSERT INTO call (employee_id, customer_id, start_time, end_time, call_outcome_id) VALUES (1, 2, '2020/1/11 9:40:31', '2020/1/11 9:42:32', 2);
-INSERT INTO call (employee_id, customer_id, start_time, end_time, call_outcome_id) VALUES (2, 4, '2020/1/11 9:41:17', '2020/1/11 9:45:21', 2);
-INSERT INTO call (employee_id, customer_id, start_time, end_time, call_outcome_id) VALUES (1, 1, '2020/1/11 9:42:32', '2020/1/11 9:46:53', 3);
-INSERT INTO call (employee_id, customer_id, start_time, end_time, call_outcome_id) VALUES (2, 1, '2020/1/11 9:46:0', '2020/1/11 9:48:2', 2);
-INSERT INTO call (employee_id, customer_id, start_time, end_time, call_outcome_id) VALUES (2, 2, '2020/1/11 9:50:12', '2020/1/11 9:55:35', 2);
+CREATE TABLE emp (
+empno INT PRIMARY KEY,
+ename VARCHAR(10),
+job VARCHAR(9),
+mgr INT NULL,
+hiredate DATETIME,
+sal NUMERIC(7,2),
+comm NUMERIC(7,2) NULL,
+dept INT)
+begin
+insert into emp values
+    (1,'JOHNSON','ADMIN',6,'12-17-1990',18000,NULL,4)
+insert into emp values
+    (2,'HARDING','MANAGER',9,'02-02-1998',52000,300,3)
+insert into emp values
+    (3,'TAFT','SALES I',2,'01-02-1996',25000,500,3)
+insert into emp values
+    (4,'HOOVER','SALES I',2,'04-02-1990',27000,NULL,3)
+insert into emp values
+    (5,'LINCOLN','TECH',6,'06-23-1994',22500,1400,4)
+insert into emp values
+    (6,'GARFIELD','MANAGER',9,'05-01-1993',54000,NULL,4)
+insert into emp values
+    (7,'POLK','TECH',6,'09-22-1997',25000,NULL,4)
+insert into emp values
+    (8,'GRANT','ENGINEER',10,'03-30-1997',32000,NULL,2)
+insert into emp values
+    (9,'JACKSON','CEO',NULL,'01-01-1990',75000,NULL,4)
+insert into emp values
+    (10,'FILLMORE','MANAGER',9,'08-09-1994',56000,NULL,2)
+insert into emp values
+    (11,'ADAMS','ENGINEER',10,'03-15-1996',34000,NULL,2)
+insert into emp values
+    (12,'WASHINGTON','ADMIN',6,'04-16-1998',18000,NULL,4)
+insert into emp values
+    (13,'MONROE','ENGINEER',10,'12-03-2000',30000,NULL,2)
+insert into emp values
+    (14,'ROOSEVELT','CPA',9,'10-12-1995',35000,NULL,1)
+end
+CREATE TABLE dept (
+deptno INT NOT NULL,
+dname VARCHAR(14),
+loc VARCHAR(13))
+begin
+insert into dept values (1,'ACCOUNTING','ST LOUIS')
+insert into dept values (2,'RESEARCH','NEW YORK')
+insert into dept values (3,'SALES','ATLANTA')
+insert into dept values (4, 'OPERATIONS','SEATTLE')
+end
